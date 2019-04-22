@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'Khan/assets/css/main.css' %}">
+</head>
+<body>
+        
+        <!--제목과 네비게이션-->
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="#">
+              <i class="fab fa-canadian-maple-leaf icon-color"></i>
+              Choi Maple.gg
+            </a>
+        </nav>
+        <!--검색 창-->
+        <form action="" method="POST">
+             {% csrf_token %}
+             <div class="input-group mb-3">
+                {{ form.as_table }}
+                <div class="input-group-append">
+                    <button class="btn btn-dark setting-border" name="AddDB" type="submit" id="button-addon2">검색</button>
+                </div>
+             </div>
+        </form>
+        <!--데이터 불러오기-->
+        <div class="card text-center">
+            <div class="card-header">서버 검색 기록</div>
+        </div>
+        <div class="table-responsive margin-flush">
+            <table class="table table-hover table-striped margin-flush">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="co1">닉네임</th>
+                        <th scope="co1">서버</th>
+                        <th scope="co1">길드</th>
+                        <th scope="co1">레벨</th>
+                        <th scope="co1">직업</th>
+                        <th scope="co1">경험치</th>
+                        <th scope="co1">랭크</th>
+                        <th scope="col">삭제</th>
+                    </tr>
+                </thead>
+                <thead>
+                    <tbody> 
+                         <!-- tr에 들어가는 값 OnClick="location.href='https://www.naver.com/'" -->
+                    {% for MapleDB_Log in MapleDB_Logs %}
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                        <tr class="table-tr-mapledb">
+                            <th scope="row">{{ MapleDB_Log.MapleName }}</th>
+                            <td>
+                                <a href="{{ MapleDB_Log.ServerIconURL }}">
+                                    <img src="{{ MapleDB_Log.ServerIconURL }}" alt="미등록 서버">
+                                    <span>{{ MapleDB_Log.MapleServer }}</span>  
+                                </a>                               
+                            </td>
+                            <td>{{ MapleDB_Log.GuildName}}</td>  
+                            <td>{{ MapleDB_Log.MapleLevel}}</td>
+                            <td>{{ MapleDB_Log.MapleJob}}</td>
+                            <td>{{ MapleDB_Log.MapleEXP}}</td>
+                            <td>{{ MapleDB_Log.TotalRank}}</td>
+                            <td><button class="btn" name="DeleteDB" formnovalidate="" type="submit" onclick="$('input#DeleteDB').click();" value="{{ MapleDB_Log.id }}" id="{{ MapleDB_Log.id }}"><i class="fa fa-backspace"></i></button></td>
+                        </tr>     
+                    </form>                  
+                    {% endfor %}
+                    </tbody>
+                </thead>
+            </table>
+        </div>   
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
